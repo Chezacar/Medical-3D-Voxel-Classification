@@ -15,7 +15,6 @@ from model import baseline
 import pandas as pd
 if __name__ == "__main__":
     time_start = time.time()
-    date = '1225mixup_with_rotation'
     config = json.load(open("config.json"))
     DEVICE = t.device(config["DEVICE"])
 
@@ -53,7 +52,7 @@ if __name__ == "__main__":
     test_dict = {'Id':Name, 'Predicted':Score}
     test_dict_df = pd.DataFrame(test_dict)
     print(test_dict_df)
-    path = '/DB/rhome/zxlei/MLproject/result'
-    if not os.path.exists(path):
-        os.makedirs(path)
-    test_dict_df.to_csv('/submisson.csv', index=False)
+    # path = './'
+    # if not os.path.exists(path):
+    #     os.makedirs(path)
+    test_dict_df.to_csv('./submisson.csv', index=False)
