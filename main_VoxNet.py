@@ -7,7 +7,7 @@ import multiprocessing
 
 from model.dataloader import *
 from model.VoxNet1219 import VoxNet
-from model.func import save_model, eval_model_new_thread, eval_model, load_model
+from model.tools import save_model, eval_model_new_thread, eval_model, load_model
 import argparse
 from tensorboardX import SummaryWriter
 from sklearn.model_selection import KFold

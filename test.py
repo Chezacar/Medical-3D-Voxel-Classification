@@ -9,7 +9,6 @@ import torchvision as tv
 
 from model import dataloader
 from model.DnCNN import DnCNN
-#from model.func import load_model
 from model import Resnet
 from model import VoxNet
 from model import baseline
@@ -32,7 +31,7 @@ if __name__ == "__main__":
     test_loader = DataLoader.DataLoader(test_set, batch_size=1, shuffle=False, num_workers=config["num_workers"]) 
     model = VoxNet.VoxNet(2).to(DEVICE)
     # Test the train_loader
-    path = 'saved_model/1225_699final1000_0.0015_folds/999.pkl'
+    path = './999.pkl'
     model.load_state_dict(t.load(path))
     model = model.eval()
 
@@ -45,22 +44,11 @@ if __name__ == "__main__":
         Score = []
         
         for batch_idx, [data,name] in enumerate(test_loader):
-            #print(data[:, 1, :, :, :])
-            #print(data[:, 0, :, :, :])
-            #data = data[:, 0, :, :, :]
-            #data = data.view((1, 1, 100, 100, 100))
             data= data.to(DEVICE)
             out = model(data)
-            #print(out.shape)
-            # monitor the upper and lower boundary of output
-            # out_max = t.max(out)
-            # out_min = t.min(out)
-            # out = (out - out_min) / (out_max - out_min)
             out = out.squeeze()
             Name.append(name[0])
             Score.append(out[1].item())
-            #print(temp)
-            #print(temp.shape)
 
     test_dict = {'Id':Name, 'Predicted':Score}
     test_dict_df = pd.DataFrame(test_dict)
@@ -68,4 +56,4 @@ if __name__ == "__main__":
     path = '/DB/rhome/zxlei/MLproject/result'
     if not os.path.exists(path):
         os.makedirs(path)
-    test_dict_df.to_csv('/DB/rhome/zxlei/MLproject/result/SubmissionVoxNet_0.00015_epoch'+date+'.csv', index=False)
+    test_dict_df.to_csv('/submisson.csv', index=False)
