@@ -87,14 +87,9 @@ if __name__ == "__main__":
                 for batch_idx, [data, label] in enumerate(test_loader):
                     data, label = data.to(DEVICE), label.to(DEVICE)
                     out = model(data)
-                    # monitor the upper and lower boundary of output
-                    # out_max = t.max(out)
-                    # out_min = t.min(out)
-                    # out = (out - out_min) / (out_max - out_min)
                     test_loss += criterian(out, label)
-                    pred = out.max(1, keepdim=True)[1]  # 找到概率最大的下标
+                    pred = out.max(1, keepdim=True)[1] 
                     correct += pred.eq(label.view_as(pred)).sum().item()
-                # store params
                 for name, param in model.named_parameters():
                     writer.add_histogram(
                         name, param.clone().cpu().data.numpy(), epoch)
@@ -106,10 +101,6 @@ if __name__ == "__main__":
                 print('Epoch: {}, Test set: Average loss: {:.4f}, Accuracy: {}/{} ({:.0f}%)\n'.format(
                     epoch, test_loss, correct, len(test_loader.dataset), test_acc))
             save_model(model, epoch, '{}_{}_{}_folds'.format(args.name, K_idx+1,LR))
-            # eval_model_new_thread(epoch, 0)
-            # LZX pls using the following code instead
-            # multiprocessing.Process(target=eval_model(epoch, '0'), args=(multiprocess_idx,))
-            # multiprocess_idx += 1
         writer.close()
 
     time_end = time.time()

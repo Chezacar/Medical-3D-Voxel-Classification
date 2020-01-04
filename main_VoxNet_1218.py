@@ -120,7 +120,6 @@ if __name__ == "__main__":
                         if (out[i]-0.5) * (label[i]-0.5) > 0:
                             correct+=1
                     '''
-                # store params
                 for name, param in model.named_parameters():
                     writer.add_histogram(
                         name, param.clone().cpu().data.numpy(), epoch)
@@ -132,10 +131,6 @@ if __name__ == "__main__":
                 print('Epoch: {}, Test set: Average loss: {:.4f}, Accuracy: {}/{} ({:.0f}%)\n'.format(
                     epoch, test_loss, correct, len(test_loader.dataset), test_acc))
             save_model(model, epoch, '{}_{}_{}_{}_folds'.format(args.name, K_idx+1,LR,date))
-            # eval_model_new_thread(epoch, 0)
-            # LZX pls using the following code instead
-            # multiprocessing.Process(target=eval_model(epoch, '0'), args=(multiprocess_idx,))
-            # multiprocess_idx += 1
         writer.close()
 
     time_end = time.time()
